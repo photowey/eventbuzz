@@ -1,0 +1,35 @@
+[package]
+name = "eventbuzz"
+version = "0.1.0"
+edition = "2021"
+
+authors = ["photowey <photowey@gmail.com>"]
+license = "Apache-2.0"
+
+documentation = "https://docs.rs/eventbuzz"
+repository = "https://github.com/photowey/eventbuzz"
+homepage = "https://github.com/photowey/eventbuzz"
+
+description = """
+A safe, fast, concurrent event publish/subscribe system based on tokio(async), inspired by Spring events.
+"""
+
+readme = "README.md"
+keywords = ["tokio", "event", "pubsub", "asynchronous", "Spring"]
+# https://crates.io/category_slugs
+categories = ["asynchronous"]
+
+[dependencies]
+eventbuzz_codegen = { version = "0.1", path = "../codegen" }
+eventbuzz_core = { version = "0.1", path = "../core" }
+tokio = { workspace = true, optional = true }
+async-trait = { workspace = true, optional = true }
+
+[features]
+default = ["synchronous"]
+synchronous = []
+asynchronous = ["tokio", "async-trait"]
+
+# https://docs.rs/about/metadata
+[package.metadata.docs.rs]
+features = ["synchronous", "asynchronous"]

@@ -53,7 +53,7 @@ struct HelloEventListener;
 
 // ----------------------------------------------------------------
 
-// HelloEvent -> This Listener target event.
+// HelloEvent -> This target event of Listener.
 impl ApplicationEventListener<HelloEvent> for HelloEventListener {
     fn on_application_event(&self, event: &HelloEvent) {
         // Handle event.
@@ -68,8 +68,8 @@ impl ApplicationEventListener<HelloEvent> for HelloEventListener {
 // 1.Build an instance of Eventbus
 // -> Maybe -> Eventbus::new() | unsupported now.
 let mut eventbus: Eventbus = Eventbus::builder()
-/* config or init | Unsupported now */
-.build();
+    /* config or init | Unsupported now */
+    .build();
 
 // 2.Register
 // -> Auto register unsupported now.
@@ -78,11 +78,11 @@ eventbus.register_listener(GreetingEventListener);
 
 // 3.Publish event.
 eventbus.publish_event(HelloEvent {
-message: String::from("Hello, HelloEvent!"),
+    message: String::from("Hello, HelloEvent!"),
 });
 
 eventbus.publish_event(GreetingEvent {
-message: String::from("Hello, GreetingEvent!"),
+    message: String::from("Hello, GreetingEvent!"),
 });
 
 ```
@@ -122,13 +122,13 @@ struct HelloEventListener;
 
 // ----------------------------------------------------------------
 
-// Notes: async_trait
-// HelloEvent -> This Listener target event.
+// Notes: #[async_trait]
+// HelloEvent -> This target event of Listener.
 
 #[async_trait]
 impl AsyncApplicationEventListener<HelloEvent> for HelloEventListener {
     async fn on_application_event(&self, event: &HelloEvent) {
-        // Handle event.
+		// Handle event.
     }
 }
 ```
@@ -142,8 +142,8 @@ impl AsyncApplicationEventListener<HelloEvent> for HelloEventListener {
 // 1.Build an instance of Eventbus
 // -> Maybe -> Eventbus::new() | unsupported now.
 let mut eventbus: AsyncEventbus = AsyncEventbus::builder()
-/* config or init | Unsupported now */
-.build();
+    /* config or init | Unsupported now */
+    .build();
 
 // 2.Register
 // -> Auto register unsupported now.
@@ -152,11 +152,11 @@ eventbus.register_listener(GreetingEventListener).await;
 
 // 3.Publish event.
 eventbus.publish_event(HelloEvent {
-message: String::from("Hello, HelloEvent!"),
+    message: String::from("Hello, HelloEvent!"),
 }).await;
 
 eventbus.publish_event(GreetingEvent {
-message: String::from("Hello, GreetingEvent!"),
+    message: String::from("Hello, GreetingEvent!"),
 }).await;
 ```
 

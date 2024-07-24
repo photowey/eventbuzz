@@ -1,0 +1,18 @@
+[workspace]
+resolver = "2"
+
+# @formatter:off
+members = [
+    "crates/core",
+    "crates/codegen",
+    "crates/eventbuzz"
+]
+# @formatter:on
+
+[workspace.dependencies]
+syn = { version = "1.0", features = ["full"] }
+quote = "1.0"
+proc-macro2 = "1.0"
+dashmap = "6.0"
+tokio = { version = "1.39", features = ["rt-multi-thread", "sync", "macros", "time"] }
+async-trait = "0.1"

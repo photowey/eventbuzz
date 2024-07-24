@@ -1,0 +1,11 @@
+[default]
+files = ["*.rs", "*.md", "*.toml", "*.yml"]
+
+[default.extend-words]
+"eventbuzz" = "eventbuzz"
+
+[files]
+extend-exclude = [
+    # Ignore these files
+    "*/*.md",
+]
