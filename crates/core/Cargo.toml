@@ -6,6 +6,20 @@ edition = "2021"
 authors = ["photowey <photowey@gmail.com>"]
 license = "Apache-2.0"
 
+documentation = "https://docs.rs/eventbuzz"
+repository = "https://github.com/photowey/eventbuzz"
+homepage = "https://github.com/photowey/eventbuzz"
+
+description = """
+The core submodule of eventbuzz project.
+"""
+
+readme = "README.md"
+keywords = ["tokio", "event", "pubsub", "asynchronous", "Spring"]
+# https://crates.io/category_slugs
+categories = ["asynchronous"]
+
+
 [dependencies]
 dashmap = { workspace = true }
 tokio = { workspace = true }

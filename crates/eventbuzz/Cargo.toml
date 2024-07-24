@@ -20,7 +20,6 @@ keywords = ["tokio", "event", "pubsub", "asynchronous", "Spring"]
 categories = ["asynchronous"]
 
 [dependencies]
-eventbuzz_codegen = { version = "0.1", path = "../codegen" }
 eventbuzz_core = { version = "0.1", path = "../core" }
 tokio = { workspace = true, optional = true }
 async-trait = { workspace = true, optional = true }

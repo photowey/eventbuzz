@@ -18,11 +18,6 @@
 
 // ----------------------------------------------------------------
 
-#[doc(inline)]
-pub use eventbuzz_codegen::*;
-
-// ----------------------------------------------------------------
-
 #[cfg(feature = "asynchronous")]
 pub mod asynchronous;
 #[cfg(feature = "synchronous")]
