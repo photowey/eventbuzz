@@ -1,6 +1,6 @@
 # `eventbuzz`
 
-A safe, fast, event publish/subscribe system, where asynchronous events are implemented based on` tokio`, and inspired
+A safe, fast, event publish/subscribe system, where asynchronous events are implemented based on `tokio`, and inspired
 by
 `Spring` events.
 
