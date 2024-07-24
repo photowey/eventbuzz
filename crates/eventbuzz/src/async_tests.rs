@@ -18,6 +18,7 @@
 
 // ----------------------------------------------------------------
 
+use std::sync::Arc;
 use std::thread;
 use std::time::Duration;
 
@@ -95,9 +96,9 @@ impl AsyncApplicationEventListener<UpdateEvent> for UpdateEventListener {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 3)]
 async fn test_async_eventbus_pub_sub() {
-    let mut eventbus: AsyncEventbus =
-        AsyncEventbus::builder() /* config or init | Unsupported now */
-            .build();
+    let mut eventbus: AsyncEventbus = AsyncEventbus::builder()
+        /* config or init | Unsupported now */
+        .build();
 
     eventbus.register_listener(HelloEventListener).await;
     eventbus.register_listener(GreetingEventListener).await;
@@ -125,4 +126,62 @@ async fn test_async_eventbus_pub_sub() {
         .await;
 
     println!("async: --- post.async.publish.UpdateEvent ---");
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 3)]
+async fn test_async_eventbus_pub_sub_tokio_spawn() {
+    let mut eventbus: AsyncEventbus = AsyncEventbus::builder()
+        /* config or init | Unsupported now */
+        .build();
+
+    eventbus.register_listener(HelloEventListener).await;
+    eventbus.register_listener(GreetingEventListener).await;
+
+    tokio::spawn(async move {
+        eventbus
+            .publish_event(HelloEvent {
+                message: String::from("Hello, tokio.HelloEvent!"),
+            })
+            .await;
+    })
+    .await
+    .unwrap();
+
+    sleep(Duration::from_secs(10)).await;
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 3)]
+async fn test_async_eventbus_pub_sub_tokio_spawn_multi() {
+    let mut eventbus: AsyncEventbus = AsyncEventbus::builder()
+        /* config or init | Unsupported now */
+        .build();
+
+    eventbus.register_listener(HelloEventListener).await;
+    eventbus.register_listener(GreetingEventListener).await;
+
+    let eventbus_arc = Arc::new(eventbus);
+
+    let eventbus_wrapped_1 = Arc::clone(&eventbus_arc);
+    tokio::spawn(async move {
+        eventbus_wrapped_1
+            .publish_event(HelloEvent {
+                message: String::from("Hello, multi.tokio.arc.1.HelloEvent!"),
+            })
+            .await;
+    })
+    .await
+    .unwrap();
+
+    let eventbus_wrapped_2 = Arc::clone(&eventbus_arc);
+    tokio::spawn(async move {
+        eventbus_wrapped_2
+            .publish_event(HelloEvent {
+                message: String::from("Hello, multi.tokio.arc.2.HelloEvent!"),
+            })
+            .await;
+    })
+    .await
+    .unwrap();
+
+    sleep(Duration::from_secs(15)).await;
 }

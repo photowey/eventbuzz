@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+// eventbuzz/sync
+
+// ----------------------------------------------------------------
+
 pub mod prelude {
     #[doc(inline)]
     #[cfg(feature = "synchronous")]

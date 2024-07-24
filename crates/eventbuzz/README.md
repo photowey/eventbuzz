@@ -1,10 +1,9 @@
 # `eventbuzz`
 
 A safe, fast, event publish/subscribe system, where asynchronous events are implemented based on `tokio`, and inspired
-by
-`Spring` events.
+by `Spring` events.
 
-## 1.`Usage`
+## 1. `Usage`
 
 Add this to your `Cargo.toml`:
 
@@ -18,13 +17,13 @@ tokio = "${version}"
 async-trait = "${version}"
 ```
 
-## 2.`APIs`
+## 2. `APIs`
 
-### 2.1.`Sync`
+### 2.1. `Sync`
 
 > `use eventbuzz::sync::prelude::*;`
 
-#### 2.1.1.`Event`
+#### 2.1.1. `Event`
 
 ```rust
 use eventbuzz::sync::prelude::*;
@@ -46,7 +45,7 @@ impl ApplicationEvent for HelloEvent {
 }
 ```
 
-#### 2.1.2.`Listener`
+#### 2.1.2. `Listener`
 
 ```rust
 struct HelloEventListener;
@@ -61,7 +60,7 @@ impl ApplicationEventListener<HelloEvent> for HelloEventListener {
 }
 ```
 
-#### 2.1.3.`Publish`
+#### 2.1.3. `Publish`
 
 ```rust
 
@@ -87,11 +86,11 @@ eventbus.publish_event(GreetingEvent {
 
 ```
 
-### 2.2.`Async`
+### 2.2. `Async`
 
 > `use eventbuzz::asynchronous::prelude::*;`
 
-#### 2.2.1.`Event`
+#### 2.2.1. `Event`
 
 ```rust
 use eventbuzz::asynchronous::prelude::*;
@@ -113,7 +112,7 @@ impl ApplicationEvent for HelloEvent {
 }
 ```
 
-#### 2.2.2.`Listener`
+#### 2.2.2. `Listener`
 
 > use `#[async_trait]`
 
@@ -133,7 +132,7 @@ impl AsyncApplicationEventListener<HelloEvent> for HelloEventListener {
 }
 ```
 
-2.2.3.`Publish`
+2.2.3. `Publish`
 
 ```rust
 // #[tokio::test(flavor = "multi_thread")]
@@ -158,5 +157,51 @@ eventbus.publish_event(HelloEvent {
 eventbus.publish_event(GreetingEvent {
     message: String::from("Hello, GreetingEvent!"),
 }).await;
+```
+
+#### 2.3.4. `tokio::spawn`
+
+```rust
+let mut eventbus: AsyncEventbus = AsyncEventbus::builder()
+/* config or init | Unsupported now */
+.build();
+
+eventbus.register_listener(HelloEventListener).await;
+eventbus.register_listener(GreetingEventListener).await;
+
+// Spawn
+tokio::spawn( async move {
+eventbus.publish_event(HelloEvent {
+message: String::from("Hello, tokio.HelloEvent!"),
+}).await;
+}).await.unwrap();
+```
+
+```rust
+// Arc<AsyncEventbus>
+
+let mut eventbus: AsyncEventbus = AsyncEventbus::builder()
+/* config or init | Unsupported now */
+.build();
+
+eventbus.register_listener(HelloEventListener).await;
+eventbus.register_listener(GreetingEventListener).await;
+
+let eventbus_arc = Arc::new(eventbus);
+
+let eventbus_wrapped_1 = Arc::clone( & eventbus_arc);
+tokio::spawn( async move {
+eventbus_wrapped_1.publish_event(HelloEvent {
+message: String::from("Hello, multi.tokio.arc.1.HelloEvent!"),
+}).await;
+}).await.unwrap();
+
+let eventbus_wrapped_2 = Arc::clone( & eventbus_arc);
+tokio::spawn( async move {
+eventbus_wrapped_2.publish_event(HelloEvent {
+message: String::from("Hello, multi.tokio.arc.2.HelloEvent!"),
+}).await;
+}).await.unwrap();
+
 ```
 

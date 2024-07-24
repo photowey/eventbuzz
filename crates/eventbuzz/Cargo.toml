@@ -1,6 +1,6 @@
 [package]
 name = "eventbuzz"
-version = "0.1.0"
+version = "0.2.1"
 edition = "2021"
 
 authors = ["photowey <photowey@gmail.com>"]
@@ -15,12 +15,12 @@ A safe, fast, concurrent event publish/subscribe system based on tokio(async), i
 """
 
 readme = "README.md"
-keywords = ["tokio", "event", "pubsub", "asynchronous", "Spring"]
+keywords = ["tokio", "eventbus", "pubsub", "asynchronous", "Spring"]
 # https://crates.io/category_slugs
 categories = ["asynchronous"]
 
 [dependencies]
-eventbuzz_core = { version = "0.1", path = "../core" }
+eventbuzz_core = { version = "0.2", path = "../core" }
 tokio = { workspace = true, optional = true }
 async-trait = { workspace = true, optional = true }
 

@@ -100,11 +100,17 @@ impl AsyncApplicationEventPublisher for BuiltinAsyncApplicationEventPublisher {
             .get(&TypeId::of::<T>())
             .as_deref()
         {
+            let event_wrapped = Arc::new(event);
+
             for listener in listeners {
                 if let Some(wrapper) =
                     listener.downcast_ref::<WrappedAsyncApplicationEventListener<T>>()
                 {
-                    wrapper.listener.on_application_event(&event).await;
+                    let listener_wrapped = wrapper.listener.clone();
+                    let event_clone = event_wrapped.clone();
+                    tokio::spawn(async move {
+                        listener_wrapped.on_application_event(&event_clone).await;
+                    });
                 }
             }
         }

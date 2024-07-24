@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+// eventbuzz/asynchronous
+
+// ----------------------------------------------------------------
+
 pub mod prelude {
     #[doc(inline)]
     #[cfg(feature = "asynchronous")]
