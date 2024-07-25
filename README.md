@@ -9,7 +9,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-eventbuzz = "0.1"
+eventbuzz = "0.2"
 
 # And
 # If necessary
@@ -67,8 +67,8 @@ impl ApplicationEventListener<HelloEvent> for HelloEventListener {
 // 1.Build an instance of Eventbus
 // -> Maybe -> Eventbus::new() | unsupported now.
 let mut eventbus: Eventbus = Eventbus::builder()
-/* config or init | Unsupported now */
-.build();
+    /* config or init | Unsupported now */
+    .build();
 
 // 2.Register
 // -> Auto register unsupported now.
@@ -77,11 +77,11 @@ eventbus.register_listener(GreetingEventListener);
 
 // 3.Publish event.
 eventbus.publish_event(HelloEvent {
-message: String::from("Hello, HelloEvent!"),
+	message: String::from("Hello, HelloEvent!"),
 });
 
 eventbus.publish_event(GreetingEvent {
-message: String::from("Hello, GreetingEvent!"),
+	message: String::from("Hello, GreetingEvent!"),
 });
 
 ```
@@ -141,8 +141,8 @@ impl AsyncApplicationEventListener<HelloEvent> for HelloEventListener {
 // 1.Build an instance of Eventbus
 // -> Maybe -> Eventbus::new() | unsupported now.
 let mut eventbus: AsyncEventbus = AsyncEventbus::builder()
-/* config or init | Unsupported now */
-.build();
+    /* config or init | Unsupported now */
+    .build();
 
 // 2.Register
 // -> Auto register unsupported now.
@@ -151,11 +151,11 @@ eventbus.register_listener(GreetingEventListener).await;
 
 // 3.Publish event.
 eventbus.publish_event(HelloEvent {
-message: String::from("Hello, HelloEvent!"),
+	message: String::from("Hello, HelloEvent!"),
 }).await;
 
 eventbus.publish_event(GreetingEvent {
-message: String::from("Hello, GreetingEvent!"),
+	message: String::from("Hello, GreetingEvent!"),
 }).await;
 ```
 
@@ -163,17 +163,17 @@ message: String::from("Hello, GreetingEvent!"),
 
 ```rust
 let mut eventbus: AsyncEventbus = AsyncEventbus::builder()
-/* config or init | Unsupported now */
-.build();
+    /* config or init | Unsupported now */
+    .build();
 
 eventbus.register_listener(HelloEventListener).await;
 eventbus.register_listener(GreetingEventListener).await;
 
 // Spawn
 tokio::spawn( async move {
-eventbus.publish_event(HelloEvent {
-message: String::from("Hello, tokio.HelloEvent!"),
-}).await;
+    eventbus.publish_event(HelloEvent {
+    	message: String::from("Hello, tokio.HelloEvent!"),
+    }).await;
 }).await.unwrap();
 ```
 
@@ -181,8 +181,8 @@ message: String::from("Hello, tokio.HelloEvent!"),
 // Arc<AsyncEventbus>
 
 let mut eventbus: AsyncEventbus = AsyncEventbus::builder()
-/* config or init | Unsupported now */
-.build();
+    /* config or init | Unsupported now */
+    .build();
 
 eventbus.register_listener(HelloEventListener).await;
 eventbus.register_listener(GreetingEventListener).await;
@@ -191,16 +191,16 @@ let eventbus_arc = Arc::new(eventbus);
 
 let eventbus_wrapped_1 = Arc::clone( & eventbus_arc);
 tokio::spawn( async move {
-eventbus_wrapped_1.publish_event(HelloEvent {
-message: String::from("Hello, multi.tokio.arc.1.HelloEvent!"),
-}).await;
+    eventbus_wrapped_1.publish_event(HelloEvent {
+    	message: String::from("Hello, multi.tokio.arc.1.HelloEvent!"),
+    }).await;
 }).await.unwrap();
 
 let eventbus_wrapped_2 = Arc::clone( & eventbus_arc);
 tokio::spawn( async move {
-eventbus_wrapped_2.publish_event(HelloEvent {
-message: String::from("Hello, multi.tokio.arc.2.HelloEvent!"),
-}).await;
+    eventbus_wrapped_2.publish_event(HelloEvent {
+    	message: String::from("Hello, multi.tokio.arc.2.HelloEvent!"),
+    }).await;
 }).await.unwrap();
 
 ```
